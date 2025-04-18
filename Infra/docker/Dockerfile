@@ -10,9 +10,7 @@ RUN apt-get install -y curl
 RUN ls -la /build
 #Install confd
 RUN curl -s -L https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 -o /usr/local/bin/confd && chmod +x /usr/local/bin/confd
-RUN /usr/local/bin/confd -confdir /build/Infra/etcd/etc/confd -onetime -backend vault -node VAULT_ADDR -client-ca-keys /build/Infra/vault-cert/client-cert.pem -client-cert /build/Infra/vault-cert/cert.pem  -client-key /build/Infra/vault-cert/key.pem -auth-type token -auth-token VAULT_TOKEN
-
-RUN openssl pkcs12 -export -out /build/cert/cc.pfx -inkey /build/cert/key.pem -in /build/cert/cert.pem -passout pass:p0lo9ki8
+#RUN openssl pkcs12 -export -out /build/cert/cc.pfx -inkey /build/cert/key.pem -in /build/cert/cert.pem -passout pass:p0lo9ki8
 # Put certificate into docker
 RUN ls -la /build/cert
 
@@ -28,7 +26,7 @@ RUN ls -l  /build/target/
 #Package stage
 FROM azure-harbor-registry.cloudsmartz.com:8443/base-images/openjdk:17-ea-jdk-buster
 COPY --from=build /build/target/ms-java-dacm-worker-1.0.0.jar /app/ms-java-dacm-worker-1.0.0.jar
-COPY --from=build /build/cert /app/cert
+#COPY --from=build /build/cert /app/cert
 
 #Add user
 RUN groupadd -r javauser && useradd -g javauser javauser
