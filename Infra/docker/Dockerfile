@@ -24,7 +24,7 @@ RUN mkdir -p /root/.m2 && \
 #RUN mvn -s /build/settings.xml -f /build/pom.xml clean package
 RUN ls -l  /build/target/
 #Package stage
-FROM azure-harbor-registry.cloudsmartz.com:8443/base-images/openjdk:17-ea-jdk-buster
+FROM openjdk:17-ea-jdk-buster
 COPY --from=build /build/target/ms-java-dacm-worker-1.0.0.jar /app/ms-java-dacm-worker-1.0.0.jar
 #COPY --from=build /build/cert /app/cert
 
